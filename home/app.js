@@ -29,17 +29,38 @@ const products = fetch("https://fakestoreapi.com/products").then((res) =>
 
 const renderCard = (givedSection, title, image, rate, count, price) => {
   const shortenedTitle = title.length > 25 ? title.slice(0, 25) + "..." : title;
-  givedSection.innerHTML += `
-  <div class="main__item">
-    <img src="${image}" class="item__image" />
-      <p class="item__title">${shortenedTitle}</p>
-      <p class="item__rating">
-        <img src="assets/rating_icon.png" alt=""> 
-        ${rate} (${count} sharsh)
-      </p>
-      <p class="item__price">${price * 12400} so'm</p>
-    </div>
-  `;
+
+  const card = document.createElement("div");
+  card.className = "main__item";
+
+  const img = document.createElement("img");
+  img.className = "item__image";
+  img.src = image;
+  img.alt = shortenedTitle;
+
+  const titleEl = document.createElement("p");
+  titleEl.className = "item__title";
+  titleEl.textContent = shortenedTitle;
+
+  const ratingEl = document.createElement("p");
+  ratingEl.className = "item__rating";
+  const ratingIcon = document.createElement("img");
+  ratingIcon.src = "assets/rating_icon.png";
+  ratingIcon.alt = "rating";
+  ratingEl.appendChild(ratingIcon);
+  ratingEl.appendChild(
+    document.createTextNode(" " + rate + " (" + count + " sharsh)")
+  );
+
+  const priceEl = document.createElement("p");
+  priceEl.className = "item__price";
+  priceEl.textContent = price * 12400 + " so'm";
+
+  card.appendChild(img);
+  card.appendChild(titleEl);
+  card.appendChild(ratingEl);
+  card.appendChild(priceEl);
+  givedSection.appendChild(card);
 };
 
 products.then((fetchedProducts) => {
