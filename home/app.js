@@ -1,280 +1,51 @@
-const section1 = document.querySelector("#main_section1");
-const section2 = document.querySelector("#main_section2");
-const section3 = document.querySelector("#main_section3");
-const section4 = document.querySelector("#main_section4");
-const section5 = document.querySelector("#main_section5");
-const section6 = document.querySelector("#main_section6");
-const section7 = document.querySelector("#main_section7");
-const section8 = document.querySelector("#main_section8");
-const section9 = document.querySelector("#main_section9");
-const section10 = document.querySelector("#main_section10");
-const section11 = document.querySelector("#main_section11");
-const section12 = document.querySelector("#main_section12");
-const section13 = document.querySelector("#main_section13");
-const section14 = document.querySelector("#main_section14");
-const section15 = document.querySelector("#main_section15");
-const section16 = document.querySelector("#main_section16");
-const section17 = document.querySelector("#main_section17");
-const section18 = document.querySelector("#main_section18");
-const section19 = document.querySelector("#main_section19");
-const section20 = document.querySelector("#main_section20");
-const section21 = document.querySelector("#main_section21");
-const section22 = document.querySelector("#main_section22");
-const section23 = document.querySelector("#main_section23");
-const section24 = document.querySelector("#main_section24");
+/**
+ * Main application script for the Uzum home page.
+ * Uses shared utilities from ../shared/utils.js
+ */
 
+const BANNER_IMAGES = [
+  "../assents/bannner1.png",
+  "../assents/banner2.png",
+  "../assents/banner3.png",
+  "../assents/banner3.png",
+];
+
+// Section-to-product mapping: defines which product slice renders into which sections
+const SECTION_CONFIG = [
+  { slice: null, sections: ["main_section1", "main_section10", "main_section24"] },
+  { slice: [11, 16], sections: ["main_section8", "main_section11", "main_section14", "main_section18", "main_section22"] },
+  { slice: [14, 19], sections: ["main_section3", "main_section7", "main_section13", "main_section17", "main_section20"] },
+  { slice: [3, 8], sections: ["main_section4", "main_section6", "main_section9", "main_section15", "main_section19", "main_section23"] },
+  { filter: "electronics", slice: [0, 5], sections: ["main_section2", "main_section5", "main_section12", "main_section16", "main_section21"] },
+];
+
+// Insert Swiper carousels into designated placeholder elements
+document.querySelectorAll(".swiper-placeholder").forEach((placeholder) => {
+  placeholder.innerHTML = createSwiperHTML(BANNER_IMAGES);
+});
+
+// Fetch products and render into sections using the config
 const products = fetch("https://fakestoreapi.com/products").then((res) =>
   res.json(),
 );
 
-const renderCard = (givedSection, title, image, rate, count, price) => {
-  const shortenedTitle = title.length > 25 ? title.slice(0, 25) + "..." : title;
-  givedSection.innerHTML += `
-  <div class="main__item">
-    <img src="${image}" class="item__image" />
-      <p class="item__title">${shortenedTitle}</p>
-      <p class="item__rating">
-        <img src="assets/rating_icon.png" alt=""> 
-        ${rate} (${count} sharsh)
-      </p>
-      <p class="item__price">${price * 12400} so'm</p>
-    </div>
-  `;
-};
-
 products.then((fetchedProducts) => {
-  const jewelryFilter = fetchedProducts.filter(
-    (item) => item.category == "jewelery",
-  );
   const electronicsFilter = fetchedProducts.filter(
-    (item) => item.category == "electronics",
+    (item) => item.category === "electronics",
   );
-  const clothingFilter = fetchedProducts.filter(
-    (item) => item.category == "men's clothing" || "women's clothing",
-  );
-  fetchedProducts.forEach((card) => {
-    renderCard(
-      section1,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section10,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section24,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-  });
-  fetchedProducts.slice(11, 16).forEach((card) => {
-    renderCard(
-      section8,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section11,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section14,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section18,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section22,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-  });
-  fetchedProducts.slice(14, 19).forEach((card) => {
-    renderCard(
-      section3,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section7,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section13,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section17,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section20,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-  });
-  fetchedProducts.slice(3, 8).forEach((card) => {
-    renderCard(
-      section4,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section6,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section9,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section15,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section19,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section23,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-  });
-  electronicsFilter.slice(0, 5).forEach((card) => {
-    renderCard(
-      section2,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
 
-    renderCard(
-      section5,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section12,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section16,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
-    renderCard(
-      section21,
-      card.title,
-      card.image,
-      card.rating.rate,
-      card.rating.count,
-      card.price,
-    );
+  SECTION_CONFIG.forEach((config) => {
+    let productList = config.filter === "electronics"
+      ? electronicsFilter
+      : fetchedProducts;
+
+    if (config.slice) {
+      productList = productList.slice(config.slice[0], config.slice[1]);
+    }
+
+    renderProductsToSections(productList, config.sections);
   });
 });
 
-
-
-
-const swiper = new Swiper(".mySwiper", {
-  loop: true,
-
-  autoplay: {
-    delay: 3000,
-    disableOnInteraction: false,
-  },
-
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-});
+// Initialize Swiper after DOM content is ready
+initSwipers();
